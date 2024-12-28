@@ -58,7 +58,7 @@ def save_preprocessed_data(training_data: pl.LazyFrame, validation_data: pl.Lazy
 if __name__ == "__main__":
     sys.path.append(".")
 
-    CONFIG = create_config(validation_ratio=0.1, start_date= 1400) # for approx 11M rows
+    CONFIG = create_config(validation_ratio=0.1, start_date= 1550) # for approx 5.5M rows
 
     train = scan_training_data(path = "../raw_data/train_parquet/", CONFIG = CONFIG)
     
