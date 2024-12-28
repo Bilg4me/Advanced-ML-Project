@@ -1,24 +1,27 @@
 import polars as pl
-import os
 import sys
 
-def create_config(validation_ratio: float) -> object:
+def create_config(validation_ratio: float, start_date: int) -> object:
     class CONFIG:
         target_col = "responder_6"
         lag_cols_original = ["date_id", "symbol_id"] + [f"responder_{idx}" for idx in range(9)]
         lag_cols_rename = { f"responder_{idx}" : f"responder_{idx}_lag_1" for idx in range(9)}
         val_ratio = validation_ratio
+        start_dt = start_date
+
     return CONFIG()
 
 def scan_training_data(path: str, CONFIG: object) -> pl.LazyFrame:
     train = pl.scan_parquet(
-        f"../raw_data/train_parquet/",
+        path,
         ).select(
             pl.int_range(pl.len(), dtype=pl.UInt32).alias("id"),
             pl.all(),
         ).with_columns(
             (pl.col(CONFIG.target_col)*2).cast(pl.Int32).alias("label"),
-        )
+        ).filter(
+            pl.col("date_id").gt(CONFIG.start_dt)
+        )   
     return train
 
 def create_lags(train: pl.LazyFrame, CONFIG: object) -> pl.LazyFrame:
@@ -55,7 +58,7 @@ def save_preprocessed_data(training_data: pl.LazyFrame, validation_data: pl.Lazy
 if __name__ == "__main__":
     sys.path.append(".")
 
-    CONFIG = create_config(validation_ratio=0.1)
+    CONFIG = create_config(validation_ratio=0.1, start_date= 1550) # for approx 5.5M rows
 
     train = scan_training_data(path = "../raw_data/train_parquet/", CONFIG = CONFIG)
     
