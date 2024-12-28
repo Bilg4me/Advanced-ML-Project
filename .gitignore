@@ -173,3 +173,4 @@ cython_debug/
 
 # raw data
 raw_data/
+preprocessed_data/training.parquet
