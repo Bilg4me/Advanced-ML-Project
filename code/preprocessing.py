@@ -1,5 +1,6 @@
 import polars as pl
 import sys
+import os
 
 def create_config(validation_ratio: float, start_date: int) -> object:
     class CONFIG:
@@ -52,6 +53,8 @@ def create_training_validation_sets(train: pl.LazyFrame, CONFIG: object) -> pl.L
     return training_data, validation_data
 
 def save_preprocessed_data(training_data: pl.LazyFrame, validation_data: pl.LazyFrame) -> None:
+    if not os.path.isdir("../preprocessed_data"):
+        os.mkdir("../preprocessed_data")
     training_data.collect().write_parquet("../preprocessed_data/training.parquet")
     validation_data.collect().write_parquet("../preprocessed_data/validation.parquet")
 
