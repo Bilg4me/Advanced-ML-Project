@@ -174,3 +174,4 @@ cython_debug/
 # raw data
 raw_data/
 preprocessed_data/
+lightning_logs/
