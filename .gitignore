@@ -173,8 +173,9 @@ cython_debug/
 
 # raw data
 raw_data/
+test.parquet
 preprocessed_data/
 lightning_logs/
-data/train-0.parquet
-data/train-1.parquet
-data/train-2.parquet
+checkpoints/
+checkpoints_symbol/
+optuna_test/
