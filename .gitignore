@@ -175,3 +175,6 @@ cython_debug/
 raw_data/
 preprocessed_data/
 lightning_logs/
+data/train-0.parquet
+data/train-1.parquet
+data/train-2.parquet
