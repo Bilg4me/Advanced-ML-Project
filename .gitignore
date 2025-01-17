@@ -179,3 +179,6 @@ lightning_logs/
 checkpoints/
 checkpoints_symbol/
 optuna_test/
+*.png
+*.pdf
+/data
